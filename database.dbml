@@ -1,0 +1,16 @@
+Project soybeanAdminGo {
+    database_type:'PostgresSQL'
+    Note:'''
+    # soybean-admin-go
+    soybean-admin的后端服务go版
+    '''
+}
+
+Table users as U {
+    username varchar [pk]
+    hashed_password varchar [not null]
+    full_name varchar [not null]
+    email varchar [unique,not null]
+    password_change_at timestamptz [not null, default:`now()`]
+    created_at timestamptz [not null, default: `now()`]
+}
