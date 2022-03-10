@@ -21,4 +21,7 @@ migratedown:
 sqlc:
 	sqlc generate
 
-.PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc
+test:
+	go test -cover ./...
+
+.PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc test
