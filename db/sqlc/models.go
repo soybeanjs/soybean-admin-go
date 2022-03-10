@@ -11,6 +11,7 @@ type User struct {
 	HashedPassword   string    `json:"hashed_password"`
 	FullName         string    `json:"full_name"`
 	Email            string    `json:"email"`
+	Phone            string    `json:"phone"`
 	PasswordChangeAt time.Time `json:"password_change_at"`
 	CreatedAt        time.Time `json:"created_at"`
 }

@@ -24,4 +24,7 @@ sqlc:
 test:
 	go test -cover ./...
 
+server:
+	go run main.go
+
 .PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc test
