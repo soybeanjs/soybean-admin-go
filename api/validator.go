@@ -6,7 +6,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/zh"
@@ -66,16 +65,4 @@ var vilidPhone validator.Func = func(fl validator.FieldLevel) bool {
 		return result
 	}
 	return true
-}
-
-func errorResponse(err error) gin.H {
-	errs, ok := err.(validator.ValidationErrors)
-	if !ok {
-		return gin.H{"error": err.Error()}
-	}
-	rsp := make(map[string]interface{})
-	for field, err := range errs.Translate(trans) {
-		rsp[field[strings.Index(field, ".")+1:]] = err
-	}
-	return rsp
 }
