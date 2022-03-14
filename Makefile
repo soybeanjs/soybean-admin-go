@@ -35,7 +35,11 @@ test:
 server:
 	go run main.go
 
-.PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc test server
+# 生成测试接口
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/honghuangdc/soybean-admin-go/db/sqlc Store
+
+.PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc test server mock
 # 查看帮助
 help:
 	@echo ''
