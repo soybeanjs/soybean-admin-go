@@ -40,6 +40,7 @@ func (server *Server) setupRouter() {
 	router := gin.Default()
 
 	router.POST("/users", server.createUser)
+	router.POST("/users/login", server.loginUser)
 
 	server.router = router
 }

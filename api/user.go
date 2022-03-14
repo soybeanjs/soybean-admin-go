@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"net/http"
 	"time"
 
@@ -78,4 +79,54 @@ func (server *Server) createUser(ctx *gin.Context) {
 
 	resp := newUserResponse(user)
 	appG.Response(http.StatusOK, e.SUCCESS, resp)
+}
+
+type loginUserRequest struct {
+	Username string `json:"username" binding:"required,alphanum",`
+	Password string `json:"password" binding:"required,min=6"`
+}
+
+type loginUserResponse struct {
+	AccessToken string       `json:"access_token"`
+	User        userResponse `json:"user"`
+}
+
+func (server *Server) loginUser(ctx *gin.Context) {
+	appg := Gin{C: ctx}
+	var req loginUserRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		appg.Response(http.StatusBadRequest, e.INVALID_PARAMS, err)
+		return
+	}
+
+	user, err := server.store.GetUser(ctx, req.Username)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			appg.Response(http.StatusNotFound, e.NOT_FOUND, err)
+			return
+		}
+		appg.Response(http.StatusInternalServerError, e.ERROR, err)
+		return
+	}
+
+	err = util.CheckPassword(req.Password, user.HashedPassword)
+	if err != nil {
+		appg.Response(http.StatusUnauthorized, e.UNAUTHORIZED, err)
+		return
+	}
+
+	accessToken, err := server.tokenMaker.CreateToken(
+		user.Username,
+		server.config.AccessTokenDuration,
+	)
+	if err != nil {
+		appg.Response(http.StatusInternalServerError, e.ERROR, err)
+		return
+	}
+
+	rsp := loginUserResponse{
+		AccessToken: accessToken,
+		User:        newUserResponse(user),
+	}
+	ctx.JSON(http.StatusOK, rsp)
 }
