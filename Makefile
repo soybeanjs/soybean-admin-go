@@ -39,7 +39,10 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/honghuangdc/soybean-admin-go/db/sqlc Store
 
-.PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc test server mock
+lint:
+	golangci-lint run
+
+.PHONY: dbml2sql dbdocs postgres createdb dropdb migrateup migratedown sqlc test server mock lint
 # 查看帮助
 help:
 	@echo ''
