@@ -48,7 +48,7 @@ func (server *Server) setupRouter() {
 
 	authRouters.POST("/testauth", func(ctx *gin.Context) {
 		appg := Gin{C: ctx}
-		appg.Response(http.StatusOK, e.SUCCESS, "认证成功")
+		appg.Response(http.StatusOK, e.Success, "认证成功")
 	})
 
 	server.router = router

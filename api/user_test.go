@@ -77,7 +77,6 @@ func TestCreateUserAPI(t *testing.T) {
 				store.EXPECT().CreateUser(gomock.Any(), EqCreateUserParams(arg, password)).
 					Times(1).
 					Return(user, nil)
-
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusOK, recorder.Code)
@@ -236,7 +235,6 @@ func TestCreateUserAPI(t *testing.T) {
 			tc.checkResponse(recorder)
 		})
 	}
-
 }
 
 func randomUser(t *testing.T) (user db.User, password string) {

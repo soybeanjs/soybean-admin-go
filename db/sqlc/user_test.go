@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/honghuangdc/soybean-admin-go/util"
 	"github.com/stretchr/testify/require"
 )
@@ -14,10 +15,10 @@ func createRandomUser(t *testing.T) User {
 	require.NoError(t, err)
 
 	arg := CreateUserParams{
-		Username:       util.RandomString(6),
+		Username:       gofakeit.Username(),
 		HashedPassword: hashedPassword,
-		FullName:       util.RandomString(6),
-		Email:          util.RandomEmail(),
+		FullName:       gofakeit.Name(),
+		Email:          gofakeit.Email(),
 	}
 
 	user, err := testQueries.CreateUser(context.Background(), arg)

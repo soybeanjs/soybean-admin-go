@@ -13,14 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func addAuthorization(
-	t *testing.T,
-	request *http.Request,
-	tokenMaker token.Maker,
-	authorizationType string,
-	username string,
-	duration time.Duration,
-) {
+func addAuthorization(t *testing.T, request *http.Request, tokenMaker token.Maker, authorizationType string, username string, duration time.Duration) {
 	token, err := tokenMaker.CreateToken(username, duration)
 	require.NoError(t, err)
 	authorizationHeader := fmt.Sprintf("%s %s", authorizationType, token)
@@ -45,7 +38,6 @@ func TestAuthMiddleware(t *testing.T) {
 		{
 			name: "NoAuthorization",
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
-
 			},
 			checkResponse: func(t *testing.T, recoder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusUnauthorized, recoder.Code)
@@ -91,7 +83,7 @@ func TestAuthMiddleware(t *testing.T) {
 				authMiddleware(server.tokenMaker),
 				func(ctx *gin.Context) {
 					appg := Gin{C: ctx}
-					appg.Response(http.StatusOK, e.SUCCESS, gin.H{})
+					appg.Response(http.StatusOK, e.Success, gin.H{})
 				},
 			)
 

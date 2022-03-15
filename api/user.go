@@ -44,13 +44,13 @@ func (server *Server) createUser(ctx *gin.Context) {
 	appG := Gin{C: ctx}
 	var req createUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		appG.Response(http.StatusBadRequest, e.INVALID_PARAMS, err)
+		appG.Response(http.StatusBadRequest, e.InvalidPrarms, err)
 		return
 	}
 
 	hashedPassword, err := util.HashPassword(req.Password)
 	if err != nil {
-		appG.Response(http.StatusInternalServerError, e.ERROR, err)
+		appG.Response(http.StatusInternalServerError, e.Error, err)
 		return
 	}
 
@@ -69,20 +69,20 @@ func (server *Server) createUser(ctx *gin.Context) {
 		if pqErr, ok := err.(*pq.Error); ok {
 			switch pqErr.Code.Name() {
 			case "unique_violation":
-				appG.Response(http.StatusForbidden, e.ERROR_USER_USERNAME_EXIST, nil)
+				appG.Response(http.StatusForbidden, e.ErrorUsernameExit, nil)
 				return
 			}
 		}
-		appG.Response(http.StatusInternalServerError, e.ERROR, err)
+		appG.Response(http.StatusInternalServerError, e.Error, err)
 		return
 	}
 
 	resp := newUserResponse(user)
-	appG.Response(http.StatusOK, e.SUCCESS, resp)
+	appG.Response(http.StatusOK, e.Success, resp)
 }
 
 type loginUserRequest struct {
-	Username string `json:"username" binding:"required,alphanum",`
+	Username string `json:"username" binding:"required,alphanum"`
 	Password string `json:"password" binding:"required,min=6"`
 }
 
@@ -95,23 +95,23 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	appg := Gin{C: ctx}
 	var req loginUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		appg.Response(http.StatusBadRequest, e.INVALID_PARAMS, err)
+		appg.Response(http.StatusBadRequest, e.InvalidPrarms, err)
 		return
 	}
 
 	user, err := server.store.GetUser(ctx, req.Username)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			appg.Response(http.StatusNotFound, e.NOT_FOUND, gin.H{})
+			appg.Response(http.StatusNotFound, e.NotFound, gin.H{})
 			return
 		}
-		appg.Response(http.StatusInternalServerError, e.ERROR, err)
+		appg.Response(http.StatusInternalServerError, e.Error, err)
 		return
 	}
 
 	err = util.CheckPassword(req.Password, user.HashedPassword)
 	if err != nil {
-		appg.Response(http.StatusUnauthorized, e.UNAUTHORIZED, err)
+		appg.Response(http.StatusUnauthorized, e.Unauthorized, err)
 		return
 	}
 
@@ -120,7 +120,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		server.config.AccessTokenDuration,
 	)
 	if err != nil {
-		appg.Response(http.StatusInternalServerError, e.ERROR, err)
+		appg.Response(http.StatusInternalServerError, e.Error, err)
 		return
 	}
 

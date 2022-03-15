@@ -31,21 +31,22 @@ func InitTrans(locale string) (err error) {
 		switch locale {
 		case "zh":
 			// 内置tag注册 中文翻译器
-			zh_trans.RegisterDefaultTranslations(v, trans)
+			_ = zh_trans.RegisterDefaultTranslations(v, trans)
 		case "en":
-			en_trans.RegisterDefaultTranslations(v, trans)
+			_ = en_trans.RegisterDefaultTranslations(v, trans)
 		default:
-			zh_trans.RegisterDefaultTranslations(v, trans)
+			_ = zh_trans.RegisterDefaultTranslations(v, trans)
 		}
-		v.RegisterValidation("phone", vilidPhone)
-		v.RegisterTranslation("phone", trans, func(ut ut.Translator) error {
+		_ = v.RegisterValidation("phone", vilidPhone)
+		_ = v.RegisterTranslation("phone", trans, func(ut ut.Translator) error {
 			return ut.Add("phone", "{0}必须是一个有效的手机号码！", true)
 		}, func(ut ut.Translator, fe validator.FieldError) string {
 			t, _ := ut.T("phone", fe.Field())
 			return t
 		})
 		v.RegisterTagNameFunc(func(field reflect.StructField) string {
-			name := strings.SplitN(field.Tag.Get("json"), ",", 2)[0]
+			count := 2
+			name := strings.SplitN(field.Tag.Get("json"), ",", count)[0]
 			if name == "-" {
 				return ""
 			}

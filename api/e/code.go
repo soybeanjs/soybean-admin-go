@@ -1,16 +1,16 @@
 package e
 
 const (
-	SUCCESS        = 200
-	ERROR          = 500
-	INVALID_PARAMS = 400
-	NOT_FOUND      = 404
-	UNAUTHORIZED   = 401
+	Success       = 200
+	Error         = 500
+	InvalidPrarms = 400
+	NotFound      = 404
+	Unauthorized  = 401
 
-	ERROR_USER_USERNAME_EXIST = 10001
+	ErrorUsernameExit = 10001
 
-	ERROR_AUTH_CHECK_TOKEN_FAIL    = 20001
-	ERROR_AUTH_CHECK_TOKEN_TIMEOUT = 20002
-	ERROR_AUTH_TOKEN               = 20003
-	ERROR_AUTH                     = 20004
+	ErrorAuthCheckTokenFail    = 20001
+	ErrorAuthCheckTokenTimtout = 20002
+	ErrorAuthToken             = 20003
+	ErrorAuth                  = 20004
 )
