@@ -3,8 +3,10 @@ package api
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/honghuangdc/soybean-admin-go/api/e"
 	db "github.com/honghuangdc/soybean-admin-go/db/sqlc"
 	"github.com/honghuangdc/soybean-admin-go/token"
 	"github.com/honghuangdc/soybean-admin-go/util"
@@ -41,6 +43,13 @@ func (server *Server) setupRouter() {
 
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.loginUser)
+
+	authRouters := router.Group("/").Use(authMiddleware(server.tokenMaker))
+
+	authRouters.POST("/testauth", func(ctx *gin.Context) {
+		appg := Gin{C: ctx}
+		appg.Response(http.StatusOK, e.SUCCESS, "认证成功")
+	})
 
 	server.router = router
 }

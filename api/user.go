@@ -102,7 +102,7 @@ func (server *Server) loginUser(ctx *gin.Context) {
 	user, err := server.store.GetUser(ctx, req.Username)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			appg.Response(http.StatusNotFound, e.NOT_FOUND, err)
+			appg.Response(http.StatusNotFound, e.NOT_FOUND, gin.H{})
 			return
 		}
 		appg.Response(http.StatusInternalServerError, e.ERROR, err)

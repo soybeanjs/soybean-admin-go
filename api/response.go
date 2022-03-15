@@ -38,3 +38,12 @@ func (g *Gin) Response(httpCode, errCode int, body interface{}) {
 		})
 	}
 }
+
+func (g *Gin) AbortWithStatusJSON(httpCode, errCode int, body interface{}) {
+	g.C.Abort()
+	g.C.JSON(httpCode, Response{
+		Code: errCode,
+		Msg:  e.GetMsg(errCode),
+		Body: body,
+	})
+}
