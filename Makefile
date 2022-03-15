@@ -39,6 +39,7 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/honghuangdc/soybean-admin-go/db/sqlc Store
 
+# 代码检查
 lint:
 	golangci-lint run
 
