@@ -15,3 +15,14 @@ Table users as U {
     password_change_at timestamptz [not null, default:'0001-01-01 00:00:00Z']
     created_at timestamptz [not null, default: `now()`]
 }
+
+Table sessions {
+    id uuid [pk]
+    username varchar [ref: > U.username, not null]
+    refresh_token varchar [not null]
+    user_agent varchar [not null]
+    client_ip varchar [not null]
+    is_blocked boolean [not null, default: false]
+    expires_at timestamptz [not null]
+    created_at timestamptz [not null,default: `now()`]
+}

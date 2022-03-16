@@ -1,6 +1,8 @@
+DB_URL=postgresql://root:secret@localhost:5432/soybean_admin?sslmode=disable
+
 # dbml 文件 转 sql 文件
 dbml2sql:
-	dbml2sql database.dbml -o database.sql --postgres
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
 # 生成在线数据库文档
 dbdocs:
 	dbdocs build database.dbml
@@ -19,11 +21,11 @@ dropdb:
 
 # 执行向上迁移数据库
 migrateup:
-	migrate -path db/migration --database "postgresql://root:secret@localhost:5432/soybean_admin?sslmode=disable" -verbose up
+	migrate -path db/migration --database "${DB_URL}" -verbose up
 
 # 执行向下迁移数据库
 migratedown:
-	migrate -path db/migration --database "postgresql://root:secret@localhost:5432/soybean_admin?sslmode=disable" -verbose down
+	migrate -path db/migration --database "${DB_URL}" -verbose down
 
 # 根据sqlc文件 自动生成 curd golang 代码
 sqlc:
