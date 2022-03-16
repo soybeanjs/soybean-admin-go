@@ -160,6 +160,5 @@ func (server *Server) loginUser(ctx *gin.Context) {
 		RefreshTokenExpiresAt: refreshPayload.ExpiredAt,
 		User:                  newUserResponse(user),
 	}
-	ctx.JSON(http.StatusOK, rsp)
 	appg.Response(http.StatusOK, e.Success, rsp)
 }
