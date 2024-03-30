@@ -5,7 +5,7 @@
 ######################
 # `go test -c` 生成的二进制文件
 *.test
-
+.test.env
 # go coverage 工具
 *.out
 *.prof
