@@ -12,6 +12,7 @@ import (
 func main() {
 	var Loc, _ = time.LoadLocation("Asia/Shanghai")
 	time.Local = Loc
+
 	app := gin.Default()
 	config.Init()
 	db.Init()

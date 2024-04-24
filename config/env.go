@@ -7,7 +7,7 @@ import (
 )
 
 func Init() {
-	err := godotenv.Load(".test.env") // 加载.env文件
+	err := godotenv.Load(".env") // 加载.env文件
 	if err != nil {
 		log.Fatal("Error loading .env file", err)
 	}

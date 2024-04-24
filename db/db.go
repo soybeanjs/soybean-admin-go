@@ -43,5 +43,13 @@ func Init() {
 func autoMigrate(db *gorm.DB) {
 	_ = db.AutoMigrate(
 		&model.User{},
+		&model.UserRole{},
+		&model.Menu{},
+		&model.Role{},
+		&model.RoleMenu{},
 	)
+}
+
+func initSqlData() {
+
 }
